@@ -1,0 +1,1 @@
+SELECT MAX(m.id) FROM mitglied m;
