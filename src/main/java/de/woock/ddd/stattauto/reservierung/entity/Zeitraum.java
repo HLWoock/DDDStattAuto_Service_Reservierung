@@ -26,7 +26,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Zeitraum implements Serializable{
+public class Zeitraum implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private static final long MS_PRO_S = 1000;

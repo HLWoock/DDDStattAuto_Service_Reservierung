@@ -2,6 +2,9 @@ package de.woock.ddd.stattauto.reservierung.adapter;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import de.woock.ddd.stattauto.reservierung.entity.Zeitraum;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,10 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.woock.ddd.stattauto.reservierung.entity.Reservierung;
+//import de.woock.ddd.stattauto.reservierung.entity.Zeitraum;
 import de.woock.ddd.stattauto.reservierung.repository.ReservierungsDao;
 import de.woock.ddd.stattauto.reservierung.service.ReservierungsService;
 
@@ -52,5 +55,12 @@ public class ReservierungsAdapter {
 	@RequestMapping("/mietobjekt/{mietObjektId}")
 	public List<Reservierung> zeigeReservierungFuerMietObjektMitId(@PathVariable Long mietObjektId) {
 		return reservierungsService.findByMietObjekt_MietObjektId(mietObjektId);
+	}
+
+	@RequestMapping("/mietobjekt/{mietObjektId}/zeitraum")
+	public List<Zeitraum> zeigeMietZeitraeumeFuerMietObjektMitId(@PathVariable Long mietObjektId) {
+		return reservierungsService.findByMietObjekt_MietObjektId(mietObjektId).stream()
+		                                                                       .map(r -> r.getZeitraum())
+		                                                                       .collect(Collectors.toList());
 	}
 }
