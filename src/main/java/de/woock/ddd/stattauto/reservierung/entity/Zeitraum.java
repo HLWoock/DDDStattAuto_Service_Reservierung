@@ -61,7 +61,7 @@ public class Zeitraum implements Serializable {
 			this.startZeit= parser.parse(startZeit);
 			this.endZeit= parser.parse(endZeit);
 		} catch (ParseException e) {
-			throw new IllegalArgumentException("Ungültiges Datum");
+			throw new IllegalArgumentException("UngÃ¼ltiges Datum");
 		}
 	}
 	

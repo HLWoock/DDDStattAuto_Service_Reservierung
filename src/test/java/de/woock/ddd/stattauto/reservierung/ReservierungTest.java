@@ -57,9 +57,9 @@ public class ReservierungTest {
 		
 		while(mitgliedResource.getLink("nachfolgendes") != null) {
 			mitgliedResource = holeNachfolgendesMitglied(mitgliedResource);
-			List<Zeitraum> zeitr‰ume = ZeitraumGenerator.getZeitr‰ume();
+			List<Zeitraum> zeitr√§ume = ZeitraumGenerator.getZeitr√§ume();
 			
-			for (Zeitraum zeitraum2 : zeitr‰ume) {
+			for (Zeitraum zeitraum2 : zeitr√§ume) {
 				int noStationen = stationenResource.size();
 				StationsResource<Station> stationsResource = stationenResource.get(rand.nextInt(noStationen));
 				
