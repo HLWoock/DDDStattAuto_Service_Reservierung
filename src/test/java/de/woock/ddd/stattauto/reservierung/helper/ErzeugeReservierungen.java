@@ -22,12 +22,12 @@ public class ErzeugeReservierungen {
 	ReservierungsService reservierungsService;
 	
 	@Test
-	public void reserviereLokal(List<Zeitraum> zeitr‰ume) {
+	public void reserviereLokal(List<Zeitraum> zeitr√§ume) {
 		JdbcTestUtils.deleteFromTables(new JdbcTemplate(), "reservierung");
 		Long     mieterId     = 125L; 
 		Long     mietObjectId = 14L; 
-		zeitr‰ume.forEach(System.out::println);
-		System.out.println(zeitr‰ume);
+		zeitr√§ume.forEach(System.out::println);
+		System.out.println(zeitr√§ume);
 //		reservierungsService.reserviere(new Reservierung(new Mieter(mieterId), new MietObjekt(mietObjectId), zeitraum));
 	}
 }

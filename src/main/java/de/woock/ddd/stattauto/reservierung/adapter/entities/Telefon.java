@@ -29,8 +29,8 @@ public class Telefon {
 	}
 	
 	public enum VorwahlenFestnetz {
-		Hamburg("040"), Bremen("0421"), Lübeck("0451"), Stade("04141"), Kiel("0431"), Reinbeck("040"), 
-		Lüneburg("04131"), Pinneberg("04101"), Buchholz("04181");
+		Hamburg("040"), Bremen("0421"), LÃ¼beck("0451"), Stade("04141"), Kiel("0431"), Reinbeck("040"), 
+		LÃ¼neburg("04131"), Pinneberg("04101"), Buchholz("04181");
 		
 		public String vorwahl;
 		private VorwahlenFestnetz(String vorwahl) {

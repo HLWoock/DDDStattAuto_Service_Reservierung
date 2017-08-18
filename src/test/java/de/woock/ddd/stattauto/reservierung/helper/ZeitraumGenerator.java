@@ -10,7 +10,7 @@ import de.woock.ddd.stattauto.reservierung.entity.Zeitraum;
 public class ZeitraumGenerator {
 	private static Random rand = new Random();
 	
-	public static List<Zeitraum> getZeiträume() {
+	public static List<Zeitraum> getZeitrÃ¤ume() {
 		
 		List<Zeitraum> zeiten = new ArrayList<>();
 		
