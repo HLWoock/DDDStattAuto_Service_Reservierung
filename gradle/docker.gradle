@@ -1,0 +1,49 @@
+/**
+ * build and push docker images
+ *
+ * image will be named <group>/<name>:<version> e.g. de.oose/spring-service-config:0.0.1-snapshot
+ * to change the version either edit the build.gradle script or tag the image explicitly with -PdockerTag=<TAG>
+ * pushes image to registry given in either gradle.properties (for default registry) or in -PdockerRegistry=<REGISTRY>
+ *
+ * build the image: ./gradlew dockerBuildImage OR ./gradlew dockerBuildImage -PdockerTag=<TAG>
+ * push the image: ./gradlew dockerPushImage OR ./gradlew dockerPushImage -PdockerRegistry=<REGISTRY>
+ *
+ * ### ### ###
+ * example build
+ *
+ * step 1 'Build Image':(creates image named de.oose/spring-service-config:0.0.1-snapshot)
+ *      ./gradlew dockerBuildImage
+ * step 2 'Push Image':(creates image from step 1 to  registry at 10.0.0.100:5000)
+ *      ./gradlew dockerPushImage -PdockerRegistry=10.0.0.100:5000
+ * step 3 'Push latest Image': (pushes the same image tagged as 'latest' to the same registry)
+ *      ./gradlew dockerPushImage -PdockerRegistry=10.0.0.100:5000 -PdockerTag=latest
+ */
+
+apply plugin: 'com.bmuschko.docker-java-application'
+
+def registryPrefix = getDockerRegistryPrefix(project)
+def group = project.group
+def name = project.name
+def dockerTag = getDockerTag(project)
+
+docker {
+    javaApplication {
+        baseImage = 'java:8-jre-alpine'
+        maintainer = 'Hermann Woock "hw@oose.de"'
+        ports = [8182]
+        tag = "$registryPrefix$group/$name:$dockerTag"
+    }
+}
+
+// call with -PdockerTag=PERFORMANCE to tag for performance etc
+def getDockerTag(project) {
+    return project.hasProperty("dockerTag") ? "${project.dockerTag}" : "$version"
+}
+
+// call with -PdockerRegistry=localhost:5000 to push to some registry
+def getDockerRegistryPrefix(project) {
+    return project.hasProperty("dockerRegistry") ? "${project.dockerRegistry}/" : ""
+}
+
+dockerPushImage.imageName = "$registryPrefix$group/$name"
+dockerPushImage.tag = dockerTag

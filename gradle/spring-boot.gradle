@@ -1,0 +1,21 @@
+/**
+ * spring boot plugin
+ * adds spring boot dependencies
+ *
+ * application plugin
+ * allows to package executable jars in zip & tar files
+ * also used by the docker build plugin
+ */
+
+apply plugin: 'application'
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+
+springBoot {
+    buildInfo() /* write meta info like 'version' into META-INF/build-info.properties */
+}

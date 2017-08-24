@@ -1,0 +1,28 @@
+/**
+ * execute integration tests in separate build step
+ *
+ * usage: ./gradlew integrationTest
+ */
+
+sourceSets {
+    integrationTest {
+        java.srcDir file('src/test-integration/java')
+    }
+}
+
+dependencies {
+    integrationTestCompile sourceSets.main.output
+    integrationTestCompile configurations.testCompile
+    integrationTestCompile sourceSets.test.output
+    integrationTestRuntime configurations.testRuntime
+
+    integrationTestCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+}
+
+task integrationTest(type: Test) {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+integrationTest.reports.html.destination = file("$buildDir/reports/integrationTest")
+integrationTest.reports.junitXml.destination = file("$buildDir/test-results/integrationTest")
