@@ -1,0 +1,67 @@
+task computeVersion {
+
+    println "Compute version number ..."
+
+    // use with "gradlew computeVersion -PdoRelease" for example
+    // automatically in build via system environment
+    if (rootProject.hasProperty('doRelease') || System.getenv("BUILD_NUMBER") != null) {
+
+        println "releasing..."
+
+        def build_time = System.getenv("BUILD_TIMESTAMP") ?: new Date().format('YYYY-MM-dd_HH-mm-ss')
+
+        def git_commit = ""
+        def short_git_commit = ""
+        if (System.properties['PL_GIT_COMMIT'] != null) {
+            git_commit = System.properties['PL_GIT_COMMIT']
+            short_git_commit = git_commit.substring(0, 7)
+        }
+        println git_commit
+
+        def git_info = 'na'
+        try {
+            def gitref = "git rev-parse HEAD".execute().text.trim()
+            def gittag = "git describe --tags --always $gitref".execute().text.trim()
+
+            def getStatusResult = "git status --porcelain".execute().text.trim()
+            def gitdirty = getStatusResult.isEmpty() ? "" : "*"
+
+            if (!gitdirty.isEmpty()) {
+                println "Git status:" + getStatusResult
+            }
+
+            if (!git_commit.isEmpty() && !gitref.isEmpty() && (short_git_commit != gitref)) {
+                //    throw new IllegalStateException("External git revision ist not the current one!")
+                println "Git commit short is $short_git_commit and gitref ist $gitref"
+            }
+
+            if (gittag.isEmpty()) {
+                git_info = "$gitref"
+            } else {
+                git_info = "$gittag"
+            }
+
+            if (gitdirty.equals("*")) {
+                git_info += ".edited"
+            }
+
+        } catch (Exception x) {
+            println "Failed to get current git info"
+            println x
+        }
+
+        if (git_info.isEmpty() && !git_commit.isEmpty()) {
+            println "Using externally supplied git revision"
+            git_info = short_git_commit
+        }
+
+        ext.computedVersion = version + '.' + build_time + '.' + git_info
+        computedVersion = computedVersion.replaceAll('-', '').replaceAll('_', '')
+
+    } else {
+        ext.computedVersion = version + '-SNAPSHOT'
+    }
+
+    println "Version ist $computedVersion"
+    version = computedVersion
+}

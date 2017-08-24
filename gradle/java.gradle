@@ -1,0 +1,16 @@
+/**
+ * set up the java build task for jre version 8
+ *
+ * usage: ./gradlew build OR ./gradlew clean build
+ */
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+compileJava.options.encoding = 'UTF-8'
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
